@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.gldy.db.mapper.?mappername?" >
+	<insert id="insertBatch" parameterType="java.util.List" flushCache="false" statementType="PREPARED" useGeneratedKeys="false">
+		insert into ?tablename? (?fields1?)
+		values
+		<foreach collection="list" item="item" index="index" separator=",">
+		(?fields2?)
+		</foreach>
+	</insert>
+	
+	<insert id="insert" parameterType="?classname?">
+		insert into ?tablename? (?fields1?) values (?fields3?)
+	</insert>
+	
+	<delete id="delete" parameterType="int">
+		delete from ?tablename? where ?key? = #{?key?}
+	</delete>
+	
+	<delete id="deleteBatch" parameterType="java.util.List">
+		delete from ?tablename? where ?key? in
+		<foreach collection="list" item="item" index="index" separator="," open="(" close=")">
+		(#{item.?key?})
+		</foreach>
+	</delete>
+	
+	<update id="update" parameterType="?classname?">
+		update ?tablename? set ?fields4? where ?key? = #{?key?}
+	</update>
+	
+	<update id="updateBatch" parameterType="java.util.List">
+		insert into ?tablename? (?fields1?)
+		values
+		<foreach collection="list" item="item" index="index" separator=",">
+			(?fields2?)
+		</foreach>
+		on duplicate key update ?fields5?
+	</update>
+	
+	<select id="selectAll" resultType="?classname?">
+		select * from ?tablename?
+	</select>
+	
+	<select id="selectByPrimaryKey" resultType="?classname?">
+		select * from ?tablename? where ?key? = #{?key?}
+	</select>
+	
+	<select id="selectBySecondKey" resultType="?classname?">
+		select * from ?tablename? where ?key2? = #{?key2?}
+	</select>
+	
+	<select id="getMaxID" resultType="int">
+		select ifnull(max(?key?), 0) from ?tablename?
+	</select>
+
+</mapper>

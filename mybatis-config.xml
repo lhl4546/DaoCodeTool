@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+	<!-- import database configuration from external properties file -->
+	<!-- <properties resource="basic-config.properties">
+	</properties> -->
+	<!-- settings of mybatis behaves at runtime -->
+	<settings>
+		<setting name="defaultStatementTimeout" value="60"/>
+	</settings>
+	<!-- declare alias of custom entity so that we can use type alias in mapper.xml file directly -->
+	<typeAliases>
+		<!-- <typeAlias alias="AccountInfo" type="com.road.dao.entity.AccountInfo" /> -->
+	</typeAliases>
+	<!-- datasource configuration -->
+	<environments default="development">
+		 <environment id="game">
+			 <transactionManager type="JDBC" />
+			 <dataSource type="POOLED">
+				 <property name="driver" value="com.mysql.jdbc.Driver" />
+				 <property name="url" value="jdbc:mysql://127.0.0.1:3306/gldy_game"/>
+				 <property name="username" value="root" />
+				 <property name="password" value="654590" />
+				 <property name="poolMaximumIdleConnections" value="0" />
+				 <property name="poolPingQuery" value="select 1" />
+				 <property name="poolPingEnabled" value="true"/>
+				 <property name="poolPingConnectionsNotUsedFor" value="3600000" />
+			</dataSource>
+		</environment>
+		<environment id="log">
+			 <transactionManager type="JDBC" />
+			 <dataSource type="POOLED">
+				 <property name="driver" value="com.mysql.jdbc.Driver" />
+				 <property name="url" value="jdbc:mysql://127.0.0.1:3306/gldy_log" />
+				 <property name="username" value="root" />
+				 <property name="password" value="654590" />
+				 <property name="poolMaximumIdleConnections" value="0" />
+				 <property name="poolPingQuery" value="select 1" />
+				 <property name="poolPingEnabled" value="true"/>
+				 <property name="poolPingConnectionsNotUsedFor" value="3600000" />
+			</dataSource>
+		</environment>
+	</environments>
+	<!-- dao mapper file -->
+	<mappers>
+		<!-- <mapper resource="com/road/dao/xml/AccountInfoMapper.xml" /> -->
+	</mappers>
+</configuration>
