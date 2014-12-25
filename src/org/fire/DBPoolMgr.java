@@ -21,16 +21,6 @@ import org.apache.ibatis.session.SqlSessionFactoryBuilder;
  */
 public class DBPoolMgr
 {
-	// /**
-	// * 游戏库
-	// */
-	// private SqlSessionFactory gameSqlSessionFactory;
-	//
-	// /**
-	// * 日志库
-	// */
-	// private SqlSessionFactory logSqlSessionFactory;
-
 	private List<SqlSessionFactory> sqlSessionFactorys = new ArrayList<SqlSessionFactory>();
 
 	/**
