@@ -7,6 +7,8 @@ package org.fire;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
@@ -19,22 +21,27 @@ import org.apache.ibatis.session.SqlSessionFactoryBuilder;
  */
 public class DBPoolMgr
 {
-	/**
-	 * 游戏库
-	 */
-	private SqlSessionFactory gameSqlSessionFactory;
+	// /**
+	// * 游戏库
+	// */
+	// private SqlSessionFactory gameSqlSessionFactory;
+	//
+	// /**
+	// * 日志库
+	// */
+	// private SqlSessionFactory logSqlSessionFactory;
 
-	/**
-	 * 日志库
-	 */
-	private SqlSessionFactory logSqlSessionFactory;
+	private List<SqlSessionFactory> sqlSessionFactorys = new ArrayList<SqlSessionFactory>();
 
 	/**
 	 * 初始化MyBatis
+	 * 
+	 * @param databases
+	 *            数据库名
 	 */
-	public void init()
+	public void init(String[] databases)
 	{
-		initDataBase("mybatis-config.xml");
+		initDataBase("mybatis-config.xml", databases);
 	}
 
 	/**
@@ -42,17 +49,20 @@ public class DBPoolMgr
 	 * 
 	 * @param mybatisConfigFileName
 	 *            mybatis配置文件路径(从类路径加载)
+	 * @param databases
+	 *            数据库名
 	 */
-	public void initDataBase(String mybatisConfigFileName)
+	public void initDataBase(String mybatisConfigFileName, String[] databases)
 	{
+		if (databases == null || databases.length == 0) return;
 		InputStream inputStream = null;
 		try
 		{
-			inputStream = new FileInputStream(mybatisConfigFileName);
-			gameSqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream, "game");
-
-			inputStream = new FileInputStream(mybatisConfigFileName);
-			logSqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream, "log");
+			for (String db : databases)
+			{
+				inputStream = new FileInputStream(mybatisConfigFileName);
+				sqlSessionFactorys.add(new SqlSessionFactoryBuilder().build(inputStream, db));
+			}
 		}
 		catch (IOException e)
 		{
@@ -61,22 +71,12 @@ public class DBPoolMgr
 	}
 
 	/**
-	 * 获取游戏库连接工厂类
+	 * 获取配置的数据库连接
 	 * 
-	 * @return 游戏库连接工厂类
+	 * @return
 	 */
-	public SqlSessionFactory getGameSqlSessionFactory()
+	public List<SqlSessionFactory> getAllSessionFactory()
 	{
-		return gameSqlSessionFactory;
-	}
-
-	/**
-	 * 获取日志库连接工厂类
-	 * 
-	 * @return 日志库连接工厂类
-	 */
-	public SqlSessionFactory getLogSqlSessionFactory()
-	{
-		return logSqlSessionFactory;
+		return sqlSessionFactorys;
 	}
 }

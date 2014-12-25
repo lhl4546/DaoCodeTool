@@ -15,7 +15,7 @@
 	</typeAliases>
 	<!-- datasource configuration -->
 	<environments default="development">
-		 <environment id="game">
+		 <environment id="db1">
 			 <transactionManager type="JDBC" />
 			 <dataSource type="POOLED">
 				 <property name="driver" value="com.mysql.jdbc.Driver" />
@@ -28,7 +28,7 @@
 				 <property name="poolPingConnectionsNotUsedFor" value="3600000" />
 			</dataSource>
 		</environment>
-		<environment id="log">
+		<environment id="db2">
 			 <transactionManager type="JDBC" />
 			 <dataSource type="POOLED">
 				 <property name="driver" value="com.mysql.jdbc.Driver" />

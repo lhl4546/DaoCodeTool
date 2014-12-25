@@ -49,29 +49,24 @@ public class CodeGenerator
 	// mapper package
 	private String packageName3;
 	private String entityImport;
-
-	// 默认mybatis配置文件路径
-	private static String DEFAULT_MYBATIS_CONFIG_FILE = "mybatis-config.xml";
+	// 数据库名
+	private String[] databases;
 
 	public static void main(String[] args) throws SQLException, IOException
 	{
 		CodeGenerator gen = new CodeGenerator();
 		gen.loadConf();
 		DBPoolMgr dbm = new DBPoolMgr();
-		dbm.init();
-		dbm.initDataBase(DEFAULT_MYBATIS_CONFIG_FILE);
-
-		SqlSessionFactory sessionFactory = dbm.getGameSqlSessionFactory();
-		gen.generateXMLFile(sessionFactory);
-		gen.generateMapperFile(sessionFactory);
-		gen.generateImplFile(sessionFactory);
-		gen.generateEntity(sessionFactory);
+		dbm.init(gen.databases);
 		
-		SqlSessionFactory sessionFactory2 = dbm.getLogSqlSessionFactory();
-		gen.generateXMLFile(sessionFactory2);
-		gen.generateMapperFile(sessionFactory2);
-		gen.generateImplFile(sessionFactory2);
-		gen.generateEntity(sessionFactory2);
+		List<SqlSessionFactory> sessFacs = dbm.getAllSessionFactory();
+		for (SqlSessionFactory sessFac : sessFacs)
+		{
+			gen.generateXMLFile(sessFac);
+			gen.generateMapperFile(sessFac);
+			gen.generateImplFile(sessFac);
+			gen.generateEntity(sessFac);
+		}
 	}
 
 	/**
@@ -90,6 +85,9 @@ public class CodeGenerator
 		packageName2 = prop.getProperty("impl_package");
 		packageName3 = prop.getProperty("mapper_package");
 		entityImport = prop.getProperty("entity_import");
+		
+		String dbNames = prop.getProperty("databases");
+		databases = dbNames.split(",");
 	}
 
 	/**
