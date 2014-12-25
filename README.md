@@ -10,5 +10,5 @@ src-gen
 	org.fire.dao.xml
 用法：
     1.打开工程，修改mybatis-config.xml文件，只需要修改environment配置以使MyBatis能正常访问数据库
-    2.修改conf.properties文件，以使生成代码使用自己的package声明和import语句
+    2.修改conf.properties文件，以使生成代码使用自己的package声明和import语句，同时配置需要生成代码的数据库(逗号分隔不同的数据库名)
     3.运行CodeGenerator类即可在工程目录的src-gen目录下生成对应的代码
