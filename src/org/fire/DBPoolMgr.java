@@ -46,18 +46,18 @@ public class DBPoolMgr
 	{
 		if (databases == null || databases.length == 0) return;
 		InputStream inputStream = null;
-		try
-		{
-			for (String db : databases)
-			{
-				inputStream = new FileInputStream(mybatisConfigFileName);
-				sqlSessionFactorys.add(new SqlSessionFactoryBuilder().build(inputStream, db));
-			}
-		}
-		catch (IOException e)
-		{
-			throw new RuntimeException("初始化MyBatis失败", e);
-		}
+        
+        for (String db : databases)
+        {
+            try (InputStream in = new FileInputStream(mybatisConfigFileName)
+            {
+                sqlSessionFactorys.add(new SqlSessionFactoryBuilder().build(in, db));
+            }
+            catch (IOException e)
+		    {
+		    	throw new RuntimeException("初始化 [" + db + "] 失败", e);
+		    }
+        }
 	}
 
 	/**
