@@ -38,7 +38,7 @@ public class DBPoolMgr
 	 * 初始化数据库连接池
 	 * 
 	 * @param mybatisConfigFileName
-	 *            mybatis配置文件路径(从类路径加载)
+	 *            mybatis配置文件路径
 	 * @param databases
 	 *            数据库名
 	 */
